@@ -1,2 +1,0 @@
-# SPIF_CTP_Server
-一个Console程序，可以回测和实时接收CTP数据，并应用事先预定的策略进行程序化
