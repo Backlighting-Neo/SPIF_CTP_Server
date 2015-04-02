@@ -177,7 +177,7 @@ Module Main
 
     Private Sub OnOrder(Command As Integer, Direction As Integer, _
                                  Price As Double, Volume As Integer, Reason As String, OrderFakeID As Integer) 
-        ConsoleControl.Log(Core.CurrentID.ToString + " " + Command.ToString + " " + Direction.ToString + " " + Format(Price, "0.0") + " " + Volume.ToString + " " + Reason, ConsoleControl.ConsoleLogLevel.Debug)
+        ConsoleControl.Log(Core.CurrentID.ToString + " " + " 【" + Format(Price, "0.0") + "】 " + " 【" + Reason + "】", ConsoleControl.ConsoleLogLevel.Debug)
 
         If Command = 0 Then
             Console.WriteLine(Core.GetCurrentOrderInfo)
