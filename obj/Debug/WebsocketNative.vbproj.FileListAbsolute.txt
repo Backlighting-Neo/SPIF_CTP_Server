@@ -1,0 +1,13 @@
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\WebsocketNative.exe.config
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.Resources.resources
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.vbproj.GenerateResource.Cache
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\WebsocketNative.exe
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\WebsocketNative.pdb
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\WebsocketNative.xml
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\Fleck.dll
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.exe
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.xml
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.pdb
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\Interop.CTPCOMLib.dll
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.vbproj.ResolveComReference.cache
+E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.vbprojResolveAssemblyReference.cache
