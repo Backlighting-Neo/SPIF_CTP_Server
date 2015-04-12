@@ -43,6 +43,7 @@ Module Main
             Call Support.RequestExit()
         End If
 
+        
         Core.ID_Start_AM = Support.GetSettings("ID_Start_AM")
         Core.ID_End_AM = Support.GetSettings("ID_End_AM")
         Core.ID_Start_PM = Support.GetSettings("ID_Start_PM")
@@ -139,6 +140,10 @@ Module Main
 
         Dim RecallDataType As String = String.Empty
 
+        ws.InitWebsocket(Support.GetSettings("WebsocketURL"))
+        Core.SetWebsocket(ws)
+        ConsoleControl.Log("Websocket已建立", ConsoleControl.ConsoleLogLevel.Info)
+
         Console.WriteLine("本次回测的文件位置：" + Support.GetSettings("RecallFilepath"))
         Console.Write("回测CTP原始数据请输入1，回测Dafuweng数据请输入2        >  ")
         Select Case Console.ReadLine()
@@ -200,6 +205,8 @@ Module Main
     End Sub
 
     Function CommandInReal()
+        ConsoleControl.Log("Websocket服务监听在" + Support.GetSettings("WebSocketURL"), ConsoleControl.ConsoleLogLevel.Debug)
+
         IsSimulation = False
         Core.PushOrder = New SPIF_Core.PushOrderDelegate(AddressOf OnOrder)
 
@@ -217,8 +224,9 @@ Module Main
         Core.Instrument = InstrumentID
         ctp.SubscribeMD(InstrumentID)
         ConsoleControl.Log("行情数据已订阅", ConsoleControl.ConsoleLogLevel.Info)
-        'ws.InitWebsocket(Support.GetSettings("WebsocketURL"))
-        'ConsoleControl.Log("Websocket已建立", ConsoleControl.ConsoleLogLevel.Info)
+        ws.InitWebsocket(Support.GetSettings("WebsocketURL"))
+        Core.SetWebsocket(ws)
+        ConsoleControl.Log("Websocket已建立", ConsoleControl.ConsoleLogLevel.Info)
 
         Return 0
     End Function

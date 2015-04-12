@@ -1,4 +1,6 @@
-﻿Class Realtime
+﻿Imports Newtonsoft.Json
+
+Class Realtime
     Public Structure CTPBufferMetaStructure
         Dim Updatetime As String
         Dim UpdatemilliSecond As Integer
@@ -22,10 +24,21 @@
         Dim KPC As Double
     End Structure
 
+    Structure BroadcastingData
+        Dim Id As Integer
+        Dim Time As String
+        Dim LastPrice As String
+        Dim JJC As String
+        Dim MMC As String
+        Dim KPC As String
+    End Structure
+
     Dim CTPBuffer(5400) As CTPBufferStructure
     Dim OutputData(5400) As OutputDataStructure
     Dim CurrentCursor = 0
     Dim LastOpenInterest As Double = 0
+
+    Public ws As Websocket
 
     Sub New()
         For Counter = 0 To 5400
@@ -80,8 +93,21 @@
                                                                      CTPBuffer(CurrentCursor - 1).AverageVolume + _
                                                                      CTPBuffer(CurrentCursor - 2).AverageVolume
 
-                TemplateSourceData += CurrentCursor.ToString + "," + Support.ID2Time(CurrentCursor) + "," + Format(CTPBuffer(CurrentCursor).Data(CTPBuffer(CurrentCursor).DataCount - 1).LastPrice, "0.0") + "," + _
-                                  Format(OutputData(CurrentCursor).JJC, "0.00") + "," + Format(OutputData(CurrentCursor).MMC, "0.00") + "," + Format(OutputData(CurrentCursor).KPC, "0.00") + vbCrLf
+                Dim OutputDataToString As String = String.Empty
+                Dim Broadcasting As BroadcastingData
+                Broadcasting.Id = CurrentCursor
+                Broadcasting.Time = Support.ID2Time(CurrentCursor)
+                Broadcasting.LastPrice = Format(CTPBuffer(CurrentCursor).Data(CTPBuffer(CurrentCursor).DataCount - 1).LastPrice, "0.0")
+                Broadcasting.JJC = Format(OutputData(CurrentCursor).JJC, "0.00")
+                Broadcasting.MMC = Format(OutputData(CurrentCursor).MMC, "0.00")
+                Broadcasting.KPC = Format(OutputData(CurrentCursor).KPC, "0.00")
+
+                OutputDataToString = Broadcasting.Id.ToString + "," + Broadcasting.Time + "," + Broadcasting.LastPrice + "," + _
+                                  Broadcasting.JJC + "," + Broadcasting.MMC + "," + Broadcasting.KPC
+
+                TemplateSourceData += OutputDataToString + vbCrLf
+
+                ws.Broadcasting(JsonConvert.SerializeObject(Broadcasting))
             End If
             CurrentCursor = ID
         End If

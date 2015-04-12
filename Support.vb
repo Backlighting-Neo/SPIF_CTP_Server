@@ -3,17 +3,20 @@ Imports System.Threading
 Imports System.Configuration
 Imports Fleck
 
-Class Websocket
+Public Class Websocket
     Dim allSockets = New List(Of IWebSocketConnection)()
+    Dim SocketNumber As Integer = 0
 
     Private Sub OnWebSocketOpen(socket)
         Console.WriteLine("Open!")
         allSockets.Add(socket)
+        SocketNumber += 1
     End Sub
 
     Private Sub OnWebsocketClose(socket)
         Console.WriteLine("Close!")
         allSockets.Remove(socket)
+        SocketNumber -= 1
     End Sub
 
     Private Sub OnMessage(socket As IWebSocketConnection, message As String)
@@ -22,6 +25,9 @@ Class Websocket
     End Sub
 
     Public Sub Broadcasting(message As String)
+        If SocketNumber = 0 Then
+            Exit Sub
+        End If
         For Each s As IWebSocketConnection In allSockets
             s.Send(message)
         Next
@@ -30,11 +36,16 @@ Class Websocket
     Public Sub InitWebsocket(url As String)
         FleckLog.Level = Fleck.LogLevel.Error
         Dim server = New WebSocketServer(url)
-        server.Start(Sub(socket)
-                         socket.OnOpen = Sub() OnWebSocketOpen(socket)
-                         socket.OnClose = Sub() OnWebsocketClose(socket)
-                         socket.OnMessage = Sub(message) OnMessage(socket, message)
-                     End Sub)
+        Try
+            server.Start(Sub(socket)
+                             socket.OnOpen = Sub() OnWebSocketOpen(socket)
+                             socket.OnClose = Sub() OnWebsocketClose(socket)
+                             socket.OnMessage = Sub(message) OnMessage(socket, message)
+                         End Sub)
+        Catch ex As Exception
+            ConsoleControl.Log("Websocket监听失败", ConsoleControl.ConsoleLogLevel.Debug)
+        End Try
+
     End Sub
 
 End Class 'Websocket控制类

@@ -85,6 +85,10 @@
         FallBackPercent = Support.GetSettings("FallBackPercent") / 100
     End Sub
 
+    Public Sub SetWebsocket(ws As Websocket)
+        Realtime.ws = ws
+    End Sub
+
     Public Function GetCurrentOrderInfo()
         Return "第" + Format(OrderCounter, "00") + "单  本单盈利" + _
             Format(CurrentOrderBenefit, "0.0") + "点，累计盈利" + _
@@ -360,7 +364,7 @@
             FilePath = Config_Default_Output_Trade
         End If
         Dim TempTradeConect As String = String.Empty
-        TempTradeConect = "用例报告" + vbCrLf + "日期：" + vbCrLf + _
+        TempTradeConect = "CTP报告" + vbCrLf + "日期：" + vbCrLf + _
             "策略：" + Support.GetSettings("TemplateFilePath") + vbCrLf + _
             "回测时间：" + Now() + vbCrLf
         TempTradeConect += "全天" + OrderCounter.ToString + "单  全天收益" + Format(TotalOrderBenefit, "0.0") + "点" + vbCrLf + vbCrLf + OriginalTradeResult

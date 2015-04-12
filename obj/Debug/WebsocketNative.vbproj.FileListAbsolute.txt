@@ -11,3 +11,5 @@ E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.pdb
 E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\Interop.CTPCOMLib.dll
 E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.vbproj.ResolveComReference.cache
 E:\SomethingTest\WebsocketNative\WebsocketNative\obj\Debug\WebsocketNative.vbprojResolveAssemblyReference.cache
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\Newtonsoft.Json.dll
+E:\SomethingTest\WebsocketNative\WebsocketNative\bin\Debug\Newtonsoft.Json.xml
