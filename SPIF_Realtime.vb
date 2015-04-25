@@ -84,7 +84,8 @@ Class Realtime
                 If CTPBuffer(CurrentCursor - 1).AverageLastPrice = 0 Then
                     OutputData(CurrentCursor).JJC = 0
                 Else
-                    OutputData(CurrentCursor).JJC = CTPBuffer(CurrentCursor).AverageLastPrice - CTPBuffer(CurrentCursor - 1).AverageLastPrice
+                    'OutputData(CurrentCursor).JJC = CTPBuffer(CurrentCursor).AverageLastPrice - CTPBuffer(CurrentCursor - 1).AverageLastPrice
+                    OutputData(CurrentCursor).JJC = GetLastPriceById(CurrentCursor) - GetLastPriceById(CurrentCursor - 1)
                 End If
                 OutputData(CurrentCursor).MMC = CTPBuffer(CurrentCursor).AverageBidAskVolume + _
                                                                         CTPBuffer(CurrentCursor - 1).AverageBidAskVolume + _
@@ -97,7 +98,7 @@ Class Realtime
                 Dim Broadcasting As BroadcastingData
                 Broadcasting.Id = CurrentCursor
                 Broadcasting.Time = Support.ID2Time(CurrentCursor)
-                Broadcasting.LastPrice = Format(CTPBuffer(CurrentCursor).Data(CTPBuffer(CurrentCursor).DataCount - 1).LastPrice, "0.0")
+                Broadcasting.LastPrice = Format(GetLastPriceById(CurrentCursor), "0.0")
                 Broadcasting.JJC = Format(OutputData(CurrentCursor).JJC, "0.00")
                 Broadcasting.MMC = Format(OutputData(CurrentCursor).MMC, "0.00")
                 Broadcasting.KPC = Format(OutputData(CurrentCursor).KPC, "0.00")
@@ -129,7 +130,11 @@ Class Realtime
     End Function
 
     Function GetLastPriceById(Id As Integer) As Double
-        Return CTPBuffer(Id).Data(CTPBuffer(Id).DataCount - 1).LastPrice
+        If CTPBuffer(Id).DataCount = 0 Then
+            Return 0
+        Else
+            Return CTPBuffer(Id).Data(CTPBuffer(Id).DataCount - 1).LastPrice
+        End If
     End Function
 
     Function OutputCustomData() As String
