@@ -31,12 +31,20 @@ Class Realtime
         Dim JJC As String
         Dim MMC As String
         Dim KPC As String
+        Dim JJC3 As String
+        Dim MMC3 As String
+        Dim KPC3 As String
+        Dim BBD As String
+        Dim Bull As String
+        Dim Bear As String
+        Dim AccBBD As String
     End Structure
 
     Dim CTPBuffer(5400) As CTPBufferStructure
     Dim OutputData(5400) As OutputDataStructure
     Dim CurrentCursor = 0
     Dim LastOpenInterest As Double = 0
+    Dim AccumlationBBD As Double
 
     Public ws As Websocket
 
@@ -98,10 +106,52 @@ Class Realtime
                 Dim Broadcasting As BroadcastingData
                 Broadcasting.Id = CurrentCursor
                 Broadcasting.Time = Support.ID2Time(CurrentCursor)
-                Broadcasting.LastPrice = Format(GetLastPriceById(CurrentCursor), "0.0")
-                Broadcasting.JJC = Format(OutputData(CurrentCursor).JJC, "0.00")
-                Broadcasting.MMC = Format(OutputData(CurrentCursor).MMC, "0.00")
-                Broadcasting.KPC = Format(OutputData(CurrentCursor).KPC, "0.00")
+                Broadcasting.LastPrice = Support.GetOutputNumber((GetLastPriceById(CurrentCursor)))
+                Broadcasting.JJC = Support.GetOutputNumber(OutputData(CurrentCursor).JJC)
+                Broadcasting.MMC = Support.GetOutputNumber(OutputData(CurrentCursor).MMC)
+                Broadcasting.KPC = Support.GetOutputNumber(OutputData(CurrentCursor).KPC)
+
+                Dim TempMetaData As SPIF_MetaData
+                TempMetaData = GetMetaData(CurrentCursor)
+
+                Dim JJC3 As Double = 0
+                Dim MMC3 As Double = 0
+                Dim KPC3 As Double = 0
+                Dim Bull As Double = 0
+                Dim Bear As Double = 0
+                JJC3 = TempMetaData.MetaData(3).JJC
+                MMC3 = TempMetaData.MetaData(3).MMC
+                KPC3 = TempMetaData.MetaData(3).KPC
+
+                Broadcasting.JJC3 = Support.GetOutputNumber(JJC3)
+                Broadcasting.KPC3 = Support.GetOutputNumber(KPC3)
+                Broadcasting.MMC3 = Support.GetOutputNumber(MMC3)
+
+                Dim TempBBD As Double
+                TempBBD = TempMetaData.MetaData(3).KPC * TempMetaData.MetaData(3).JJC
+
+                If JJC3 > 0 Then
+                    If KPC3 > 0 Then
+                        Bull = TempBBD
+                    Else
+                        TempBBD = -TempBBD
+                        Bear = TempBBD
+                    End If
+                Else
+                    If KPC3 > 0 Then
+                        Bear = TempBBD
+                    Else
+                        TempBBD = -TempBBD
+                        Bull = TempBBD
+                    End If
+                End If
+
+                Broadcasting.Bull = Support.GetOutputNumber(Bull)
+                Broadcasting.Bear = Support.GetOutputNumber(Bear)
+
+                AccumlationBBD += TempBBD
+                Broadcasting.BBD = Support.GetOutputNumber(TempBBD)
+                Broadcasting.AccBBD = Support.GetOutputNumber(AccumlationBBD)
 
                 OutputDataToString = Broadcasting.Id.ToString + "," + Broadcasting.Time + "," + Broadcasting.LastPrice + "," + _
                                   Broadcasting.JJC + "," + Broadcasting.MMC + "," + Broadcasting.KPC

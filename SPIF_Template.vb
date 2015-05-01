@@ -99,7 +99,7 @@
             ReDim AllTemplate(Counter).Rules.MMC(3)
 
             For RulesCounter = 1 To TemplateRules.Length - 1
-                
+
                 RulesConfig = TemplateRules(RulesCounter).Split(" ")
                 RulesConfig(0) = RulesConfig(0).Trim()
 
