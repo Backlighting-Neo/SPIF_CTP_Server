@@ -106,10 +106,10 @@ Class Realtime
                 Dim Broadcasting As BroadcastingData
                 Broadcasting.Id = CurrentCursor
                 Broadcasting.Time = Support.ID2Time(CurrentCursor)
-                Broadcasting.LastPrice = Support.GetOutputNumber((GetLastPriceById(CurrentCursor)))
-                Broadcasting.JJC = Support.GetOutputNumber(OutputData(CurrentCursor).JJC)
-                Broadcasting.MMC = Support.GetOutputNumber(OutputData(CurrentCursor).MMC)
-                Broadcasting.KPC = Support.GetOutputNumber(OutputData(CurrentCursor).KPC)
+                Broadcasting.LastPrice = Support.GetOutputNumber1((GetLastPriceById(CurrentCursor)))
+                Broadcasting.JJC = Support.GetOutputNumber1(OutputData(CurrentCursor).JJC)
+                Broadcasting.MMC = Support.GetOutputNumber0(OutputData(CurrentCursor).MMC)
+                Broadcasting.KPC = Support.GetOutputNumber0(OutputData(CurrentCursor).KPC)
 
                 Dim TempMetaData As SPIF_MetaData
                 TempMetaData = GetMetaData(CurrentCursor)
@@ -123,9 +123,9 @@ Class Realtime
                 MMC3 = TempMetaData.MetaData(3).MMC
                 KPC3 = TempMetaData.MetaData(3).KPC
 
-                Broadcasting.JJC3 = Support.GetOutputNumber(JJC3)
-                Broadcasting.KPC3 = Support.GetOutputNumber(KPC3)
-                Broadcasting.MMC3 = Support.GetOutputNumber(MMC3)
+                Broadcasting.JJC3 = Support.GetOutputNumber1(JJC3)
+                Broadcasting.KPC3 = Support.GetOutputNumber0(KPC3)
+                Broadcasting.MMC3 = Support.GetOutputNumber0(MMC3)
 
                 Dim TempBBD As Double
                 TempBBD = TempMetaData.MetaData(3).KPC * TempMetaData.MetaData(3).JJC
@@ -146,12 +146,12 @@ Class Realtime
                     End If
                 End If
 
-                Broadcasting.Bull = Support.GetOutputNumber(Bull)
-                Broadcasting.Bear = Support.GetOutputNumber(Bear)
+                Broadcasting.Bull = Support.GetOutputNumber0(Bull)
+                Broadcasting.Bear = Support.GetOutputNumber0(Bear)
 
                 AccumlationBBD += TempBBD
-                Broadcasting.BBD = Support.GetOutputNumber(TempBBD)
-                Broadcasting.AccBBD = Support.GetOutputNumber(AccumlationBBD)
+                Broadcasting.BBD = Support.GetOutputNumber0(TempBBD)
+                Broadcasting.AccBBD = Support.GetOutputNumber0(AccumlationBBD)
 
                 OutputDataToString = Broadcasting.Id.ToString + "," + Broadcasting.Time + "," + Broadcasting.LastPrice + "," + _
                                   Broadcasting.JJC + "," + Broadcasting.MMC + "," + Broadcasting.KPC

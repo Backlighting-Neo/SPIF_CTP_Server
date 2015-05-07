@@ -115,8 +115,12 @@ Class SQLServer
 End Class '数据库控制类
 
 Class Support
-    Public Shared Function GetOutputNumber(Number As Double) As String
-        Return Format(Number, "0.00")
+    Public Shared Function GetOutputNumber0(Number As Double) As String
+        Return Format(Number, "0")
+    End Function
+
+    Public Shared Function GetOutputNumber1(Number As Double) As String
+        Return Format(Number, "0.0")
     End Function
 
     Public Shared Function GetSettings(SettingName As String) As String
